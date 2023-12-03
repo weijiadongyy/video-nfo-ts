@@ -1,0 +1,21 @@
+# 忽略生成的 JavaScript 文件
+/dist/
+
+# 忽略 node_modules 目录
+/node_modules/
+
+# 忽略本地配置文件
+.env
+
+# 忽略 TypeScript 编译配置文件
+tsconfig.json
+
+# 忽略生成的 sourcemaps 文件
+*.js.map
+
+# 忽略编辑器和开发环境相关的文件
+.vscode/
+.idea/
+
+# 忽略运行时产生的文件
+*.log
