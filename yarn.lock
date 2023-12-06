@@ -272,28 +272,12 @@
     "@types/jsonfile" "*"
     "@types/node" "*"
 
-"@types/jsdom@^21.1.6":
-  version "21.1.6"
-  resolved "https://registry.yarnpkg.com/@types/jsdom/-/jsdom-21.1.6.tgz#bcbc7b245787ea863f3da1ef19aa1dcfb9271a1b"
-  integrity sha512-/7kkMsC+/kMs7gAYmmBR9P0vGTnOoLhQhyhQJSlXGI5bzTHp6xdo0TtKWQAsz6pmSAeVqKSbqeyP6hytqr9FDw==
-  dependencies:
-    "@types/node" "*"
-    "@types/tough-cookie" "*"
-    parse5 "^7.0.0"
-
 "@types/jsonfile@*":
   version "6.1.4"
   resolved "https://registry.yarnpkg.com/@types/jsonfile/-/jsonfile-6.1.4.tgz#614afec1a1164e7d670b4a7ad64df3e7beb7b702"
   integrity sha512-D5qGUYwjvnNNextdU59/+fI+spnwtTFmyQP0h+PfIOSkNfpU6AOICUOkm4i0OnSk+NyjdPJrxCDro0sJsWlRpQ==
   dependencies:
     "@types/node" "*"
-
-"@types/move-file@^1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@types/move-file/-/move-file-1.1.0.tgz#920f55f130a31d269f816e0221d48563c2fbd7fb"
-  integrity sha512-euy7rq7hS8mvQyFLkEFqWPoSJdkzTaww+OxriFlpm9cb9+201AEgaQkt07eD+vFhSAqe3feQDX6aGTVKaYbmkQ==
-  dependencies:
-    move-file "*"
 
 "@types/node@*", "@types/node@^20.10.0":
   version "20.10.2"
@@ -306,11 +290,6 @@
   version "16.9.1"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-16.9.1.tgz#0611b37db4246c937feef529ddcc018cf8e35708"
   integrity sha512-QpLcX9ZSsq3YYUUnD3nFDY8H7wctAhQj/TFKL8Ya8v5fMm3CFXxo8zStsLAl780ltoYoo1WvKUVGBQK+1ifr7g==
-
-"@types/tough-cookie@*":
-  version "4.0.5"
-  resolved "https://registry.yarnpkg.com/@types/tough-cookie/-/tough-cookie-4.0.5.tgz#cb6e2a691b70cb177c6e3ae9c1d2e8b2ea8cd304"
-  integrity sha512-/Ad8+nIOV7Rl++6f1BdKxFSMgmoqEoYbHRpPcx3JEfv8VRsQe9Z4mCXeJBzxs7mbHY/XOZZuXlRNfhpVPbs6ZA==
 
 "@types/xml2js@^0.4.14":
   version "0.4.14"
@@ -619,13 +598,6 @@ min-document@^2.19.0:
   dependencies:
     dom-walk "^0.1.0"
 
-move-file@*:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/move-file/-/move-file-3.1.0.tgz#ea9675d54852708242462bfe60d56b3c3854cdf7"
-  integrity sha512-4aE3U7CCBWgrQlQDMq8da4woBWDGHioJFiOZ8Ie6Yq2uwYQ9V2kGhTz4x3u6Wc+OU17nw0yc3rJ/lQ4jIiPe3A==
-  dependencies:
-    path-exists "^5.0.0"
-
 node-fetch@^2.6.1:
   version "2.7.0"
   resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.7.0.tgz#d0f0fa6e3e2dc1d27efcd8ad99d550bda94d187d"
@@ -687,11 +659,6 @@ parse5@^7.0.0:
   integrity sha512-Czj1WaSVpaoj0wbhMzLmWD69anp2WH7FXMB9n1Sy8/ZFF9jolSQVMu1Ij5WIyGmcBmhk7EOndpO4mIpihVqAXw==
   dependencies:
     entities "^4.4.0"
-
-path-exists@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/path-exists/-/path-exists-5.0.0.tgz#a6aad9489200b21fab31e49cf09277e5116fb9e7"
-  integrity sha512-RjhtfwJOxzcFmNOi6ltcbcu4Iu+FL3zEj83dk4kAS+fVpTxXLO1b38RvJgT/0QwvV/L3aY9TAnyv0EOqW4GoMQ==
 
 peek-readable@^4.1.0:
   version "4.1.0"

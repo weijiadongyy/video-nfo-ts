@@ -9,6 +9,12 @@ type ReversedObject = {
     [key: string]: string[];
 };
 
+/**
+ * 
+ * 将对象的key:value转换成value:key[]
+ * @param obj 
+ * @returns 
+ */
 function reverseObjectWithArrays(obj: OriginalObject): ReversedObject {
     const reversedObject: ReversedObject = {};
     for (const key in obj) {
@@ -27,8 +33,6 @@ function reverseObjectWithArrays(obj: OriginalObject): ReversedObject {
     return reversedObject;
 }
 const translateActors_ = reverseObjectWithArrays(translateActors);
-
-
 
 //翻译
 export async function translate_actor_日语_中文(name: string) {

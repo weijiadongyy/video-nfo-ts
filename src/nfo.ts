@@ -5,11 +5,17 @@ import config from './config';
 declare global {
     interface NFOXMLObj {
         title?: string;
+        /**
+         * 情节
+         */
         plot?: string;
         mpaa?: string;
         poster?: string;
         thumb?: string;
         fanart?: string;
+        /**
+         * 发布时间
+         */
         premiered?: string;
         actor: {
             name: string;
@@ -35,6 +41,7 @@ export async function write_nfo(data: NFOData, fileName: string) {
         tag: [],
         genre: []
     };
+
     if (config.descriptionInsertWebsite && data.website) {
         obj.plot = `<a href="${data.website}">${data.barCode}</a>  ${obj.plot || ''}`;
     }

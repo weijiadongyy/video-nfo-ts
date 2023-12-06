@@ -1,9 +1,9 @@
 import { log } from "console";
-import path from "path";
+import * as  path from "path";
 import * as  fs from 'fs'
 import { get_avator, get_data } from "./get_data";
 import { write_nfo } from "./nfo";
-import Jimp from "jimp";
+import * as Jimp from "jimp";
 import * as fsExtra from 'fs-extra';
 import { downloadImage } from "./network";
 import config from './config'
@@ -25,7 +25,7 @@ export default async function code(filePath: string, destFolderPathBase: string,
     barCode = barCode.toUpperCase();
 
     log(`开始处理[${barCode}] ${filePath}`)
-    const data = await get_data(barCode);
+    const { data, datas } = await get_data(barCode);
 
     let actorNames;//文件夹名称
     if (data.actors && data.actors.length > 0) {
@@ -41,27 +41,67 @@ export default async function code(filePath: string, destFolderPathBase: string,
         await fs.mkdirSync(destFolder, { recursive: true });
     }
 
+    //#nfo可能海报名字与背景名字是反的
     const destFileName_poster = path.join(destFolder, `${barCode}-fanart.jpg`);//海报fanart
     const destFileName_fanart = path.join(destFolder, `${barCode}-poster.jpg`);//背景图像
 
-    if (data.posterUrl) {
-
-        if (!fs.existsSync(destFileName_poster)) {
-            log('下载海报图片:', data.posterUrl);
-            const buff = await downloadImage(data.posterUrl, destFileName_poster)
-            const imgData_poster = await Jimp.read(buff);
-            await imgData_poster.writeAsync(destFileName_poster);
-            // await imgData_poster.writeAsync(destFileName_thumb);
-        }
-        if (!fs.existsSync(destFileName_fanart) || true) {
-            log('裁剪海报中背景:', destFileName_fanart);
-            const imgData_poster = await Jimp.read(destFileName_poster);
-            const { width, height } = imgData_poster.bitmap;
-            const startPos = Math.floor(width * 0.525);
-            const rightPoster = imgData_poster.clone().crop(startPos, 0, width - startPos, height);
-            await rightPoster.writeAsync(destFileName_fanart);
+    for (let i = 0; i < datas.length; i++) {
+        const item = datas[i];
+        if (item.posterUrl) {
+            try {
+                if (!fs.existsSync(destFileName_poster)) {
+                    log('下载海报图片:', item.posterUrl);
+                    const buff = await downloadImage(item.posterUrl, destFileName_poster)
+                    const imgData_poster = await Jimp.read(buff);
+                    await imgData_poster.writeAsync(destFileName_poster);
+                    // await imgData_poster.writeAsync(destFileName_thumb);
+                }
+                if (!fs.existsSync(destFileName_fanart) || true) {
+                    log('裁剪海报中背景:', destFileName_fanart);
+                    const imgData_poster = await Jimp.read(destFileName_poster);
+                    const { width, height } = imgData_poster.bitmap;
+                    const startPos = Math.floor(width * 0.525);
+                    const rightPoster = imgData_poster.clone().crop(startPos, 0, width - startPos, height);
+                    await rightPoster.writeAsync(destFileName_fanart);
+                }
+                break;
+            } catch (e: any) {
+                log('处理海报图片出错:', e.message);
+                //海报很重要,如果都没有处理成功,就抛出异常
+                if (i == datas.length - 1) {
+                    throw new Error('处理海报失败');
+                }
+            }
         }
     }
+
+    if (config.extrafanart) {
+        for (let i = 0; i < datas.length; i++) {
+            const item = datas[i];
+            if (item.extrafanart && item.extrafanart.length > 0) {
+                try {
+                    const dir = path.join(destFolder, config.extrafanart);
+                    if (!fs.existsSync(dir)) {
+                        log("创建文件夹:", dir);
+                        fs.mkdirSync(dir, { recursive: true });
+                    }
+                    // await downloadImage(avator_url, imgPath);
+                    for (let i = 0; i < item.extrafanart.length; i++) {
+                        const image = item.extrafanart[i];
+                        const fileName = path.join(dir, 'extrafanart_' + (i + 1) + '.jpg');
+                        if (!fs.existsSync(fileName)) {
+                            log('下载剧照图片:', image.url)
+                            await downloadImage(image.url, fileName);
+                        }
+                    }
+                    break;
+                } catch (e: any) {
+                    log('剧照处理出错:', e.message);
+                }
+            }
+        }
+    }
+
     //下载演员头像
     if (data.actors && data.actors.length > 0) {
         if (!fs.existsSync(actorImgFolderPath)) {
@@ -70,6 +110,7 @@ export default async function code(filePath: string, destFolderPathBase: string,
         }
         for (const actor of data.actors) {
             if (actor.man) {
+                //男演员头像一般没有
                 continue;
             }
             const imgPath = path.join(actorImgFolderPath, actor.name + '.jpg');
@@ -104,3 +145,6 @@ export default async function code(filePath: string, destFolderPathBase: string,
     }
 
 }
+
+
+

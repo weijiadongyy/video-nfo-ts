@@ -1,3 +1,4 @@
+import { log } from 'console';
 import * as  fs from 'fs'
 import * as path from 'path'
 
@@ -14,16 +15,20 @@ export async function findFiles(dir: string, videoExtensions: string[], videoMin
         const files = fs.readdirSync(_dir);
         files.forEach(file => {
             const filePath = path.join(_dir, file);
-            const stat = fs.statSync(filePath);
-            if (stat.isDirectory()) {
-                _findFiles(filePath, _filePaths);
-            } else {
-                const fileExtension = path.extname(file);
-                if (lowerCaseExtensions.includes(fileExtension)) {
-                    if (stat.size > videoMinSize) {
-                        _filePaths.push(filePath);
+            try {
+                const stat = fs.statSync(filePath);
+                if (stat.isDirectory()) {
+                    _findFiles(filePath, _filePaths);
+                } else {
+                    const fileExtension = path.extname(file).toLowerCase();
+                    if (lowerCaseExtensions.includes(fileExtension)) {
+                        if (stat.size > videoMinSize) {
+                            _filePaths.push(filePath);
+                        }
                     }
                 }
+            } catch (e: any) {
+                log("读取文件目录出错:", e.message)
             }
         })
         return _filePaths;

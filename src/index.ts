@@ -1,4 +1,4 @@
-
+//#TODO 读取nfo文件,比较添加内容
 import config from './config'
 import * as path from 'path'
 import { extractBarCode } from './extract_barcode';
@@ -8,7 +8,7 @@ import code from './code';
 
 const sourceFolderPath = path.resolve(config.sourceFolderPath);
 const destFolderPath = path.resolve(config.destFolderPath);
-const videoExtensions = config.videoTypes.split(',');
+const videoExtensions = config.videoTypes.split(/,|\|/);
 const videoMinSize = config.videoMinSize;
 
 

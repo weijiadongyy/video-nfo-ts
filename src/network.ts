@@ -9,12 +9,12 @@ if (proxy) {
     process.env.https_proxy = proxy;
 }
 
-const headers = {
-    'User-Agent': userAgent,
-    'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6'
-}
 
 export async function fetch_data(url: string) {
+    const headers = {
+        'User-Agent': userAgent,
+        'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6'
+    }
     const response = await axios.get(url, {
         headers
     });
@@ -28,10 +28,14 @@ export async function fetch_data(url: string) {
  * @returns 
  */
 export async function downloadImage(url: string, fileName: string) {
+
     // 发起 HTTP GET 请求获取图片数据
     const response = await axios.get(url, {
-        responseType: 'arraybuffer', headers
+        responseType: 'arraybuffer', headers: {
+            'User-Agent': userAgent
+        }
     });
     fs.writeFileSync(fileName, Buffer.from(response.data));
+
     return response.data as Buffer;
 }
