@@ -47,7 +47,7 @@ export async function write_nfo(data: NFOData, fileName: string) {
     }
     (data.actors || []).forEach(actor => {
         obj.actor.push({
-            name: actor.name,
+            name: actor.name_cn || actor.name,
             thumb: actor.tag_thumb
         });
     });

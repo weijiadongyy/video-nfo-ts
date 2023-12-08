@@ -1,12 +1,12 @@
 
 interface Actor {
+    name_cn?: string;
     name: string;
     man?: boolean;//是否男优
     tag_thumb?: string;
 }
 
 interface Extrafanart {
-    name?: string;
     url: string
 }
 
@@ -22,7 +22,7 @@ interface NFOData {
     tag_poster?: string;
     tag_fanart?: string;
     tag_thumb?: string;
-    extrafanart?: Extrafanart[]
+    extrafanarts?: Extrafanart[]
 }
 
 type GetDataFunction = (barCode: string) => Promise<NFOData | undefined>;

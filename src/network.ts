@@ -35,7 +35,7 @@ export async function downloadImage(url: string, fileName: string) {
             'User-Agent': userAgent
         }
     });
-    fs.writeFileSync(fileName, Buffer.from(response.data));
+    fs.writeFileSync(fileName, Buffer.from(response.data), {});
 
     return response.data as Buffer;
 }

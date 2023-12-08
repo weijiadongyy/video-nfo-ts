@@ -56,11 +56,11 @@ export default class Javbus implements WebSiteInterface {
             data.posterUrl = urlModel.resolve(domain, data.posterUrl);
         }
 
-        data.extrafanart = [];
+        data.extrafanarts = [];
         $('#sample-waterfall a.sample-box').each((index, imageA) => {
             const href = $(imageA).attr('href');
             if (href) {
-                data.extrafanart!.push({
+                data.extrafanarts!.push({
                     url: href
                 })
             }
