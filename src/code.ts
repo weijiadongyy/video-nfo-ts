@@ -29,7 +29,7 @@ export default async function code(filePath: string, destFolderPathBase: string,
     log(`开始处理[${barCode}] ${filePath}`);
 
     let actorNames = "佚名";
-    let destFolder = path.join(destFolderPathBase, actorNames);
+    let destFolder = path.join(destFolderPathBase, actorNames, barCode);
 
     const data: NFOData = {}
     for (const web of websites) {
@@ -118,6 +118,8 @@ export default async function code(filePath: string, destFolderPathBase: string,
                 log('获取演员图像:', imgPath);
                 const names = await translate_actor_中文_日语(actor.name_cn || actor.name);
                 names.unshift(actor.name);
+
+                loop:
                 for (let i = 0; i < names.length; i++) {
                     const name = names[i];
                     for (let j = 0; j < websites.length; j++) {
@@ -131,14 +133,20 @@ export default async function code(filePath: string, destFolderPathBase: string,
                             try {
                                 log('下载演员头像图片:', avator_url);
                                 await downloadImage(avator_url, imgPath);
+                                break loop;
                             } catch (e: any) {
                                 log('下载演员头像图片出错:', e.message);
-                                if (j == websites.length - 1) {
-                                    //实在找不到了
-                                    log('下载默认头像:', config.defaultAvator);
-                                    await downloadImage(config.defaultAvator, imgPath);
-                                }
                             }
+                        }
+                    }
+
+                    if (i == websites.length - 1) {
+                        //实在找不到了
+                        try {
+                            log('下载默认演员头像图片:', config.defaultAvator);
+                            await downloadImage(config.defaultAvator, imgPath);
+                        } catch (e: any) {
+                            log('下载默认演员头像图片出错:', e.message);
                         }
                     }
                 }
@@ -163,6 +171,11 @@ export default async function code(filePath: string, destFolderPathBase: string,
 
 
 
+/**
+ * 处理剧照
+ * @param destFolder 
+ * @param extrafanarts 
+ */
 async function dealExtrafanart(destFolder: string, extrafanarts: Extrafanart[]) {
     const dir = path.join(destFolder, config.extrafanart);
     if (!fs.existsSync(dir)) {
